@@ -19,6 +19,7 @@ gemma_template = {
 }
 
 model2template = {
+    "google/gemma-2-9b-it": gemma_template,
     "google/gemma-7b-it": gemma_template,
     "Qwen/Qwen1.5-0.5B": qwen_template,
     "Qwen/Qwen1.5-1.8B": qwen_template,
@@ -28,6 +29,7 @@ model2template = {
 }
 
 model2size = {
+    "google/gemma-2-9b-it":9_000_000_000,
     "google/gemma-7b-it":7_000_000_000,
     "Qwen/Qwen1.5-0.5B": 620_000_000,
     "Qwen/Qwen1.5-1.8B": 1_840_000_000,
@@ -37,6 +39,7 @@ model2size = {
 }
 
 model2base_model = {
+    "google/gemma-2-9b-it":"gemma",
     "google/gemma-7b-it": "gemma",
     "Qwen/Qwen1.5-0.5B": "qwen1.5",
     "Qwen/Qwen1.5-1.8B": "qwen1.5",
