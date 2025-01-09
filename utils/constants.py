@@ -27,7 +27,7 @@ phi_template = {
 
     
 model2template = {
-    "microsoft/Phi-3-mini-4k-instruct":phi3_template,
+    "microsoft/Phi-3-mini-4k-instruct":phi_template,
     "Qwen/Qwen2.5-3B-Instruct":qwen_template,
     "google/gemma-2-9b-it": gemma_template,
     "google/gemma-7b-it": gemma_template,
