@@ -23,7 +23,8 @@ phi3_template = {
     "assistant_format": "{content}<eos>\n",
     "system": "",
     "tool_format": "<tool>{content}</tool>",  # 添加这行
-    "function_format": "<function>{content}</function>"  # 添加这行
+    "function_format": "<function>{content}</function>",  # 添加这行
+    "observation_format": "<observation>{content}</observation>"  # 添加这行
 }
 
 
