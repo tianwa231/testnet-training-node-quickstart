@@ -55,7 +55,7 @@ model2size = {
 
 model2base_model = {
     "microsoft/Phi-3-mini-4k-instruct":"phi3",
-    "Qwen/Qwen2.5-3B-Instruct":"qwen2.5",
+    "Qwen/Qwen2.5-3B-Instruct":"qwen",
     "google/gemma-2-9b-it":"gemma",
     "google/gemma-7b-it": "gemma",
     "Qwen/Qwen1.5-0.5B": "qwen1.5",
