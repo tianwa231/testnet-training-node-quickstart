@@ -22,8 +22,9 @@ phi3_template = {
     "user_format": "<start_of_turn>user\n{content}<end_of_turn>\n<start_of_turn>model\n",
     "assistant_format": "{content}<eos>\n",
     "system": "",
-    
+    "tool_format": "<tool>{content}</tool>"  # 添加这行
 }
+
     
 model2template = {
     "microsoft/Phi-3-mini-4k-instruct":phi3_template,
