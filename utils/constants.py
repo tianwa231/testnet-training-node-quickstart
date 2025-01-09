@@ -17,8 +17,14 @@ gemma_template = {
     "observation_format": "<start_of_turn>tool\n{content}<end_of_turn>\n<start_of_turn>model\n",
     "system": None,
 }
-
+phi3_template = {
+    "system_format": "<|im_start|>system\n{content}<|im_end|>\n",
+    "user_format": "<|im_start|>user\n{content}<|im_end|>\n<|im_start|>assistant\n",
+    "assistant_format": "{content}<|im_end|>\n",
+    "system": None,
+}
 model2template = {
+    "microsoft/Phi-3-mini-4k-instruct":phi3_template,
     "Qwen/Qwen2.5-3B-Instruct":qwen_template,
     "google/gemma-2-9b-it": gemma_template,
     "google/gemma-7b-it": gemma_template,
@@ -30,6 +36,7 @@ model2template = {
 }
 
 model2size = {
+    "microsoft/Phi-3-mini-4k-instruct":3_800_000_000,
     "Qwen/Qwen2.5-3B-Instruct":3_000_000_000,
     "google/gemma-2-9b-it":9_000_000_000,
     "google/gemma-7b-it":7_000_000_000,
@@ -41,6 +48,7 @@ model2size = {
 }
 
 model2base_model = {
+    "microsoft/Phi-3-mini-4k-instruct":"phi3",
     "Qwen/Qwen2.5-3B-Instruct":"qwen2.5",
     "google/gemma-2-9b-it":"gemma",
     "google/gemma-7b-it": "gemma",
