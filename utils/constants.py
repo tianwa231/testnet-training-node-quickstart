@@ -17,14 +17,11 @@ gemma_template = {
     "observation_format": "<start_of_turn>tool\n{content}<end_of_turn>\n<start_of_turn>model\n",
     "system": None,
 }
-phi3_template = {
-    "system_format": "<bos>",
-    "user_format": "<start_of_turn>user\n{content}<end_of_turn>\n<start_of_turn>model\n",
-    "assistant_format": "{content}<eos>\n",
-    "system": "",
-    "tool_format": "<tool>{content}</tool>",  # 添加这行
-    "function_format": "<function>{content}</function>",  # 添加这行
-    "observation_format": "<observation>{content}</observation>"  # 添加这行
+phi_template = {
+    "system_format": "<|system|>\n{content}<|end|>\n",
+    "user_format": "<|user|>\n{content}<|end|>\n",
+    "assistant_format": "<|assistant|>\n{content}<|end|>\n",
+    "system": None,
 }
 
 
