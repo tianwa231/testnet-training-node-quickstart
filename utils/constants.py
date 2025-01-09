@@ -19,11 +19,9 @@ gemma_template = {
 }
 phi3_template = {
     "system_format": "<|im_start|>system\n{content}",
-    "system_format": "<|im_start|>system\n{content}<|im_end|>\n",
-    "user_format": "<|im_start|>user\n{content}<|im_end|>\n<|im_start|>assistant\n",
-    "assistant_format": "{content}<|im_end|>\n",
-    "system": None,
+    
 }
+    
 model2template = {
     "microsoft/Phi-3-mini-4k-instruct":phi3_template,
     "Qwen/Qwen2.5-3B-Instruct":qwen_template,
