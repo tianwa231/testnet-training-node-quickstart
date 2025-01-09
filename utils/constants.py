@@ -18,7 +18,7 @@ gemma_template = {
     "system": None,
 }
 phi3_template = {
-    "system_format": "<|im_start|>system\n{content}
+    "system_format": "<|im_start|>system\n{content}",
     "system_format": "<|im_start|>system\n{content}<|im_end|>\n",
     "user_format": "<|im_start|>user\n{content}<|im_end|>\n<|im_start|>assistant\n",
     "assistant_format": "{content}<|im_end|>\n",
