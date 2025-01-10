@@ -9,16 +9,16 @@ from utils.tool_utils import function_formatter
 
 class SFTDataset(Dataset):
     def __init__(self, file, tokenizer, max_seq_length, template):
-        self.tokenizer = tokenizer
-        self.system_format = template["system_format"]
-        self.user_format = template["user_format"]
-        self.assistant_format = template["assistant_format"]
-        self.tool_format = template["tool_format"]
-        self.function_format = template["function_format"]
-        self.observation_format = template["observation_format"]
-        self.observation_format = template.get("observation_format", "default_format")
-        self.tool_format = template.get("tool_format", "default_value")
+        # Debugging print statement
+        print("Template content:", template)
 
+        self.tokenizer = tokenizer
+        self.system_format = template.get("system_format", "default_system_format")
+        self.user_format = template.get("user_format", "default_user_format")
+        self.assistant_format = template.get("assistant_format", "default_assistant_format")
+        self.tool_format = template.get("tool_format", "default_tool_format")
+        self.function_format = template.get("function_format", "default_function_format")
+        self.observation_format = template.get("observation_format", "default_observation_format")
 
         self.max_seq_length = max_seq_length
         logger.info("Loading data: {}".format(file))
@@ -26,6 +26,7 @@ class SFTDataset(Dataset):
             data_list = f.readlines()
         logger.info("There are {} data in dataset".format(len(data_list)))
         self.data_list = data_list
+
 
     def __len__(self):
         return len(self.data_list)
