@@ -7,6 +7,7 @@ from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
 from trl import SFTTrainer, SFTConfig
 
 from dataset import SFTDataCollator, SFTDataset
+from merge import merge_lora_to_base_model
 from utils.constants import model2template
 
 
@@ -24,15 +25,11 @@ def train_lora(
     model_id: str, context_length: int, training_args: LoraTrainingArguments
 ):
     assert model_id in model2template, f"model_id {model_id} not supported"
-    
-    # Debugging print statement
-    print("Template for model {}: {}".format(model_id, model2template[model_id]))
-    
     lora_config = LoraConfig(
         r=training_args.lora_rank,
         target_modules=[
-            "transformer.h.0.attention.q_proj",
-            "transformer.h.0.attention.v_proj",
+            "q_proj",
+            "v_proj",
         ],
         lora_alpha=training_args.lora_alpha,
         lora_dropout=training_args.lora_dropout,
@@ -72,7 +69,7 @@ def train_lora(
 
     # Load dataset
     dataset = SFTDataset(
-        file="data/demo_data.jsonl",
+        file="demo_data.jsonl",
         tokenizer=tokenizer,
         max_seq_length=context_length,
         template=model2template[model_id],
@@ -98,24 +95,3 @@ def train_lora(
 
     # upload lora weights and tokenizer
     print("Training Completed.")
-
-
-if __name__ == "__main__":
-    # Define training arguments for LoRA fine-tuning
-    training_args = LoraTrainingArguments(
-        num_train_epochs=3,
-        per_device_train_batch_size=2,
-        gradient_accumulation_steps=2,
-        lora_rank=8,
-        lora_alpha=16,
-        lora_dropout=0.05,
-    )
-
-    # Set model ID and context length
-    model_id = "microsoft/Phi-3-mini-4k-instruct"
-    context_length = 2048
-
-    # Start LoRA fine-tuning
-    train_lora(
-        model_id=model_id, context_length=context_length, training_args=training_args
-    )
