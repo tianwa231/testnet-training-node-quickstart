@@ -1,32 +1,29 @@
 import json
-from typing import Any, Dict, List
 
-import torch
 from loguru import logger
 from torch.utils.data import Dataset
-from utils.tool_utils import function_formatter
+from .tool_utils import tool_formater, function_formatter
 
 
-class SFTDataset(Dataset):
+class UnifiedSFTDataset(Dataset):
     def __init__(self, file, tokenizer, max_seq_length, template):
-        # Debugging print statement
-        print("Template content:", template)
-
         self.tokenizer = tokenizer
-        self.system_format = template.get("system_format", "default_system_format")
-        self.user_format = template.get("user_format", "default_user_format")
-        self.assistant_format = template.get("assistant_format", "default_assistant_format")
-        self.tool_format = template.get("tool_format", "default_tool_format")
-        self.function_format = template.get("function_format", "default_function_format")
-        self.observation_format = template.get("observation_format", "default_observation_format")
+        self.template_name = template.template_name
+        self.system_format = template.system_format
+        self.user_format = template.user_format
+        self.assistant_format = template.assistant_format
+        self.tool_format = template.tool_format
+        self.function_format = template.function_format
+        self.observation_format = template.observation_format
+        self.system = template.system
 
         self.max_seq_length = max_seq_length
         logger.info("Loading data: {}".format(file))
         with open(file, "r", encoding="utf8") as f:
             data_list = f.readlines()
+        logger.info(f'Use template "{self.template_name}" for training')
         logger.info("There are {} data in dataset".format(len(data_list)))
         self.data_list = data_list
-
 
     def __len__(self):
         return len(self.data_list)
@@ -45,13 +42,21 @@ class SFTDataset(Dataset):
                 input_ids = self.tokenizer.encode(system_text, add_special_tokens=False)
                 target_mask = [0] * len(input_ids)
 
+        # setting tool information
+        if "tools" in data.keys() and data["tools"]:
+            tools = json.loads(data["tools"])
+            tool_prompt = tool_formater(tools)
+            tool_text = self.tool_format.format(content=tool_prompt)
+            tool_tokens = self.tokenizer.encode(tool_text, add_special_tokens=False)
+            input_ids = input_ids + tool_tokens
+            target_mask = target_mask + [0] * len(tool_tokens)
+
         conversations = data["conversations"]
 
         input_buffer = ""
-        for i in range(len(conversations)):
-            role = conversations[i]["role"]
-            content = conversations[i]["content"].strip()
-
+        for conversation in conversations:
+            role = conversation["role"]
+            content = conversation["content"].strip()
             if role != "assistant":
                 if role == "user":
                     human = self.user_format.format(
@@ -82,7 +87,6 @@ class SFTDataset(Dataset):
                 input_ids += input_tokens + output_tokens
                 target_mask += [0] * len(input_tokens) + [1] * len(output_tokens)
                 input_buffer = ""
-
         assert len(input_ids) == len(target_mask)
 
         input_ids = input_ids[: self.max_seq_length]
@@ -93,54 +97,5 @@ class SFTDataset(Dataset):
             "input_ids": input_ids,
             "attention_mask": attention_mask,
             "target_mask": target_mask,
-        }
-        return inputs
-
-
-class SFTDataCollator(object):
-    def __init__(self, tokenizer, max_seq_length):
-        self.tokenizer = tokenizer
-        self.max_seq_length = max_seq_length
-        self.pad_token_id = tokenizer.pad_token_id
-
-    def __call__(self, batch: List[Dict[str, Any]]) -> Dict[str, Any]:
-        # Find the maximum length in the batch
-        lengths = [len(x["input_ids"]) for x in batch if x["input_ids"] is not None]
-        # Take the maximum length in the batch, if it exceeds max_seq_length, take max_seq_length
-        batch_max_len = min(max(lengths), self.max_seq_length)
-
-        input_ids_batch, attention_mask_batch, target_mask_batch = [], [], []
-        # Truncate and pad
-        for x in batch:
-            input_ids = x["input_ids"]
-            attention_mask = x["attention_mask"]
-            target_mask = x["target_mask"]
-            if input_ids is None:
-                logger.info("some input_ids is None")
-                continue
-            padding_len = batch_max_len - len(input_ids)
-            # Pad
-            input_ids = input_ids + [self.pad_token_id] * padding_len
-            attention_mask = attention_mask + [0] * padding_len
-            target_mask = target_mask + [0] * padding_len
-            # Truncate
-            input_ids = input_ids[: self.max_seq_length]
-            attention_mask = attention_mask[: self.max_seq_length]
-            target_mask = target_mask[: self.max_seq_length]
-
-            input_ids_batch.append(input_ids)
-            attention_mask_batch.append(attention_mask)
-            target_mask_batch.append(target_mask)
-
-        # Convert lists to tensors to get the final model input
-        input_ids_batch = torch.tensor(input_ids_batch, dtype=torch.long)
-        attention_mask_batch = torch.tensor(attention_mask_batch, dtype=torch.long)
-        target_mask_batch = torch.tensor(target_mask_batch, dtype=torch.long)
-
-        labels = torch.where(target_mask_batch == 1, input_ids_batch, -100)
-        inputs = {
-            "input_ids": input_ids_batch,
-            "attention_mask": attention_mask_batch,
-            "labels": labels,
         }
         return inputs
