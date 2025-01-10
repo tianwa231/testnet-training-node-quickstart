@@ -15,7 +15,10 @@ class SFTDataset(Dataset):
         self.assistant_format = template["assistant_format"]
         self.tool_format = template["tool_format"]
         self.function_format = template["function_format"]
-        self.observation_format = template["observation_format","default_format"]
+        self.observation_format = template["observation_format"]
+        self.observation_format = template.get("observation_format", "default_format")
+        self.tool_format = template.get("tool_format", "default_value")
+
 
         self.max_seq_length = max_seq_length
         logger.info("Loading data: {}".format(file))
