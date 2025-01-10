@@ -31,8 +31,8 @@ def train_lora(
     lora_config = LoraConfig(
         r=training_args.lora_rank,
         target_modules=[
-            "transformer.h.0.attn.q_proj",
-            "transformer.h.0.attn.v_proj",
+            "transformer.h.0.attention.q_proj",
+            "transformer.h.0.attention.v_proj",
         ],
         lora_alpha=training_args.lora_alpha,
         lora_dropout=training_args.lora_dropout,
