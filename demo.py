@@ -1,3 +1,4 @@
+# train_lora.py
 import os
 from dataclasses import dataclass
 
@@ -24,6 +25,10 @@ def train_lora(
     model_id: str, context_length: int, training_args: LoraTrainingArguments
 ):
     assert model_id in model2template, f"model_id {model_id} not supported"
+    
+    # Debugging print statement
+    print("Template for model {}: {}".format(model_id, model2template[model_id]))
+    
     lora_config = LoraConfig(
         r=training_args.lora_rank,
         target_modules=[
