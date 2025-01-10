@@ -112,7 +112,7 @@ if __name__ == "__main__":
     )
 
     # Set model ID and context length
-    model_id = "Qwen/Qwen1.5-0.5B"
+    model_id = "microsoft/Phi-3-mini-4k-instruct"
     context_length = 2048
 
     # Start LoRA fine-tuning
