@@ -17,7 +17,7 @@ gemma_template = {
     "observation_format": "<start_of_turn>tool\n{content}<end_of_turn>\n<start_of_turn>model\n",
     "system": None,
 }
-phi_template = {
+phi3_template = {
     "system_format": "<|system|>\n{content}<|end|>\n",
     "user_format": "<|user|>\n{content}<|end|>\n",
     "assistant_format": "<|assistant|>\n{content}<|end|>\n",
@@ -27,7 +27,7 @@ phi_template = {
 
     
 model2template = {
-    "microsoft/Phi-3-mini-4k-instruct":phi_template,
+    "microsoft/Phi-3-mini-4k-instruct":phi3_template,
     "Qwen/Qwen2.5-3B-Instruct":qwen_template,
     "google/gemma-2-9b-it": gemma_template,
     "google/gemma-7b-it": gemma_template,
