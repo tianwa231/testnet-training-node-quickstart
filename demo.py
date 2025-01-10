@@ -1,4 +1,3 @@
-# train_lora.py
 import os
 from dataclasses import dataclass
 
@@ -32,8 +31,8 @@ def train_lora(
     lora_config = LoraConfig(
         r=training_args.lora_rank,
         target_modules=[
-            "q_proj",
-            "v_proj",
+            "self_attn.q_proj",
+            "self_attn.v_proj",
         ],
         lora_alpha=training_args.lora_alpha,
         lora_dropout=training_args.lora_dropout,
