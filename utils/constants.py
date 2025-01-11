@@ -143,10 +143,10 @@ model2template = {
     "meta-llama/Meta-Llama-3-70B": llama3_template,
     "meta-llama/Meta-Llama-3-70B-Instruct": llama3_template,
      # phi3
-    "microsoft/Phi-3.5-mini-instruct":phi3,
-    "microsoft/Phi-3-mini-4k-instruct":phi3,
-    "microsoft/Phi-3-small-8k-instruct":phi3,
-    "microsoft/Phi-3-medium-4k-instruct":phi3,
+    "microsoft/Phi-3.5-mini-instruct":phi3_template,
+    "microsoft/Phi-3-mini-4k-instruct":phi3_template,
+    "microsoft/Phi-3-small-8k-instruct":phi3_template,
+    "microsoft/Phi-3-medium-4k-instruct":phi3_template,
 }
 
 model2size = {
@@ -287,6 +287,6 @@ model2base_model = {
     "meta-llama/Meta-Llama-3-70B": "llama3",
     "meta-llama/Meta-Llama-3-70B-Instruct": "llama3",
     # phi3
-    "microsoft/Phi-3.5-mini-instruct": phi3,
-    "microsoft/Phi-3-mini-4k-instruct": phi3,
+    "microsoft/Phi-3.5-mini-instruct": "phi3",
+    "microsoft/Phi-3-mini-4k-instruct": "phi3",
 }
