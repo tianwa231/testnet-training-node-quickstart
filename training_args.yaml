@@ -1,17 +1,17 @@
 01-ai/Yi-1.5-9B-Chat:
-  per_device_train_batch_size: 400
-  gradient_accumulation_steps: 1600
-  num_train_epochs: 800
-  lora_rank: 1600
-  lora_alpha: 3200
-  lora_dropout: 0.05
+  per_device_train_batch_size: 40
+  gradient_accumulation_steps: 160
+  num_train_epochs: 80
+  lora_rank: 160
+  lora_alpha: 320
+  lora_dropout: 0.005
 HuggingFaceH4/zephyr-7b-alpha:
-  per_device_train_batch_size: 4
-  gradient_accumulation_steps: 16
-  num_train_epochs: 3
-  lora_rank: 16
-  lora_alpha: 32
-  lora_dropout: 0.05
+  per_device_train_batch_size: 40
+  gradient_accumulation_steps: 160
+  num_train_epochs: 80
+  lora_rank: 160
+  lora_alpha: 320
+  lora_dropout: 0.005
 meta-llama/Meta-Llama-3-8B-Instruct:
   per_device_train_batch_size: 4
   gradient_accumulation_steps: 16
